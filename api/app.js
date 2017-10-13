@@ -12,4 +12,12 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 
+app.get('/users', function (req, res) {
+  res.send('Users');
+});
+
+app.get('/times', function (req, res) {
+  res.send('Times');
+});
+
 module.exports = app;
