@@ -8,16 +8,8 @@ var app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+var userRoutes = require('./routes/user');
 
-app.get('/users', function (req, res) {
-  res.send('Users');
-});
-
-app.get('/times', function (req, res) {
-  res.send('Times');
-});
+app.use('/api', userRoutes);
 
 module.exports = app;

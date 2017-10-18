@@ -2,18 +2,20 @@
 
 var mongoose = require('mongoose');
 var app = require('./api/app');
+require('dotenv').config();
 
-// TODO env
 var port = process.env.PORT || 3339;
-var mongoDB = 'mongodb://localhost:27017/time_controller';
+var mongoHost = process.env.MONGODB_HOST;
+var mongoDB = 'mongodb://'+mongoHost+'/time_controller';
+mongoose.Promise = global.Promise;
 
-//mongoose.connect(mongoDB, (err, res) => {
-//    if(err){
-//        throw err;
-//    }else{
-//        console.log('Connect to mongodb');
-//    }
-//});
+mongoose.connect(mongoDB, (err, res) => {
+    if(err){
+        throw err;
+    }else{
+        console.log('Connect to mongodb');
+    }
+});
 
 //Get the default connection
 //var db = mongoose.connection;

@@ -1,3 +1,5 @@
+'use strict'
+
 //Require Mongoose
 var mongoose = require('mongoose')
 
@@ -10,6 +12,6 @@ var TimeSchema = new Schema({
 });
 
 // Compile model from schema
-var TimeModel = mongoose.model('Time', TimeSchema );
+var TimeModel = mongoose.model('Time', TimeSchema);
 
 module.exports = TimeModel;
