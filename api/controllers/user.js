@@ -14,11 +14,12 @@ function store(req, res){
     
     user.email = params.email.toLowerCase();
     user.name = params.name;
+    user.password = params.password;
     user.avatar = 'null';
     
-    if (params.password && user.email){
-        bcrypt.hash(params.password, null, null, function(err, hash){
-            user.password = hash;
+    if (user.password && user.email){
+        user.hashPassword(function(err) {
+            if (err) throw err;
             user.save((err, userStored)=>{
                 if(err){
                     res.status(500).send({
@@ -30,10 +31,10 @@ function store(req, res){
                     });
                 }
             });
-        })
+        });
     }else{
         res.status(200).send({
-            message: 'Fill all fields'
+            message: 'Please, fill email & password fields'
         })
     }
 }
@@ -48,14 +49,17 @@ function login(req, res){
             });   
         }else{
             if(user){
-                bcrypt.compare(params.password, user.password, function(err,check){
-                   if(check){
-
-                   }else{
-                       res.status(200).send({
+                user.verifyPassword(params.password, function(err, check) {
+                    if(check){
+                        //Log
+                        res.status(200).send({
                            user: user
-                       });
-                   }
+                        });
+                    }else{
+                        res.status(404).send({
+                            message: 'User not found'
+                        });
+                    }
                 });
             }else{
                 res.status(404).send({
