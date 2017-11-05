@@ -15,21 +15,6 @@ var UserSchema = new Schema({
     avatar: String
 });
 
-UserSchema.methods.hashPassword = function() {
-    bcrypt.hash(this.password, null, null, function(err, hash){
-        this.password = hash;
-    })
-};
-
-UserSchema.methods.verifyPassword = function(pass) {
-    bcrypt.compare(this.password, pass, function(err,check){
-       if(check){
-           return true;
-       }
-    });
-    return false;
-};
-
 // Compile model from schema
 var UserModel = mongoose.model('User', UserSchema);
 
