@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 
 var TimeSchema = new Schema({
     user: String,
-    time: Date
+    time: Number
 });
 
 // Compile model from schema

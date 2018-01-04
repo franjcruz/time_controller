@@ -29,7 +29,7 @@ function store(req, res){
     
     if (params.user){
         time.user = params.user;
-        time.time = moment().format();
+        time.time = moment().unix();
         time.save((err, timeStored)=>{
             if(err){
                 res.status(500).send({
@@ -48,8 +48,24 @@ function store(req, res){
     }
 }
 
+function dayTime(req, res){
+    var day = req.params.day;
+    var today = moment(day, "YYYYMMDD").unix();
+    var tomorrow = moment(day, "YYYYMMDD").add(1,'d').unix();
+    console.log(today, tomorrow);
+
+    Time.find({
+        user:req.params.user,
+        time: { $gt: today, $lt: tomorrow},
+    },function(err, results) {
+        if(err) res.send(500, err.message);
+        res.status(200).jsonp(results);
+    });
+}
+
 module.exports = {
     index,
     store,
-    show
+    show,
+    dayTime
 }
